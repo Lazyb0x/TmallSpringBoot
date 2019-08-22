@@ -2,6 +2,7 @@ package com.how2java.tmall.util;
 
 import org.springframework.data.domain.Page;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Page4Navigator<T> {
@@ -20,7 +21,7 @@ public class Page4Navigator<T> {
     boolean isHasNext;
     boolean isHasPrevious;
 
-    int[] navigatePageNums;
+    int[] navigatePageNums = {1,2,3,4,5};
 
     public Page4Navigator() {
         //为redis从json转换而预留。
@@ -70,11 +71,13 @@ public class Page4Navigator<T> {
                     navigatepageNums[i] = startNum++;
                 }
             }
-            this.navigatePageNums = navigatepageNums;
         }
+
+        this.navigatePageNums = navigatepageNums;
     }
 
     //Getter 和 Setter
+
     public Page<T> getPageFromJPA() {
         return pageFromJPA;
     }
@@ -179,11 +182,11 @@ public class Page4Navigator<T> {
         isHasPrevious = hasPrevious;
     }
 
-    public int[] getNavigateNums() {
+    public int[] getNavigatePageNums() {
         return navigatePageNums;
     }
 
-    public void setNavigateNums(int[] navigateNums) {
-        this.navigatePageNums = navigateNums;
+    public void setNavigatePageNums(int[] navigatePageNums) {
+        this.navigatePageNums = navigatePageNums;
     }
 }
