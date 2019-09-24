@@ -45,6 +45,18 @@
                         vue.file = null;
                     });
                 },
+                deleteBean: function(id){
+                    if (!checkDeleteLink())
+                        return;
+                    var url = this.uri+"/"+id;
+                    axios.delete(url).then(function (response) {
+                        if (response.data.length!=0)  //REST 规范，当删除数据后，应该返回一个空字符串
+                            alert(response.data);
+                        else{
+                            vue.list(0);
+                        }
+                    });
+                },
                 getFile: function (event) {
                     this.file = event.target.files[0];
                 },
@@ -95,7 +107,7 @@
                     <a :href="'admin_category_edit?id=' + bean.id "><span class="glyphicon glyphicon-edit"></span></a>
                 </td>
                 <td>
-                    <a href="#nowhere"  @click="deleteBean(bean.id)"><span class="   glyphicon glyphicon-trash"></span></a>
+                    <a href="#nowhere"  @click="deleteBean(bean.id)"><span class="glyphicon glyphicon-trash"></span></a>
                 </td>
             </tr>
             </tbody>
