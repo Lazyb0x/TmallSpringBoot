@@ -8,7 +8,7 @@ import java.util.List;
 public class Page4Navigator<T> {
     //提取自 Page
     Page<T> pageFromJPA;
-    int navigatePages;
+    int navigatePages;      //导航栏的项目
     int totalPages;         //总页数
     int number;
     long totalElements;

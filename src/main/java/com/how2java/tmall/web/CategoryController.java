@@ -66,7 +66,8 @@ public class CategoryController {
     }
 
     @GetMapping("/categories/{id}")
-    public Category get(@PathVariable("id") int id, HttpServletRequest request){
+    public Category get(@PathVariable("id") int id, HttpServletRequest request)
+        throws Exception{
         Category bean = categoryService.get(id);
         return bean;
     }

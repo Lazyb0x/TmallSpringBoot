@@ -22,8 +22,8 @@ public class CategoryService {
         return categoryDAO.findAll(sort);
     }
 
-    //start: 从0开始的页面索引（？）
-    //size： 页面的大小
+    //start: 从0开始的页面索引（？），就是第几页
+    //size： 每页含有几个项目
     //navivatePages 导航栏里面一行显示几个页码
     public Page4Navigator<Category> list(int start, int size, int navigatePages) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
