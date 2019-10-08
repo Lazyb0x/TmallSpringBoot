@@ -1,7 +1,9 @@
 package com.how2java.tmall.web;
 
 import com.how2java.tmall.pojo.Product;
+import com.how2java.tmall.pojo.ProductImage;
 import com.how2java.tmall.service.CategoryService;
+import com.how2java.tmall.service.ProductImageService;
 import com.how2java.tmall.service.ProductService;
 import com.how2java.tmall.util.Page4Navigator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ public class ProductController {
     ProductService productService;
     @Autowired
     CategoryService categoryService;
+    @Autowired
+    ProductImageService productImageService;
 
     @GetMapping("/categories/{cid}/products")
     public Page4Navigator<Product> list(
@@ -24,6 +28,7 @@ public class ProductController {
     ) throws Exception {
         start = start<0 ? 0 : start;
         Page4Navigator<Product> page = productService.list(cid, start, size, 5);
+        productImageService.setFirstProductImages(page.getContent());
         return page;
     }
 
