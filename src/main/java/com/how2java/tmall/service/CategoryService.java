@@ -25,6 +25,15 @@ public class CategoryService {
     //start: 从0开始的页面索引（？），就是第几页
     //size： 每页含有几个项目
     //navivatePages 导航栏里面一行显示几个页码
+
+    /**
+     * 分类的分页
+     *
+     * @param start 第几页（从0开始数）
+     * @param size 每页有几个项目
+     * @param navigatePages 导航栏里面一行显示几个页码
+     * @return 包含了 Page 的主要信息以及一个用来表示页码的数组
+     */
     public Page4Navigator<Category> list(int start, int size, int navigatePages) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(start, size, sort);

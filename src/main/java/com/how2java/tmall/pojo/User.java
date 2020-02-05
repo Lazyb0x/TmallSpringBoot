@@ -14,12 +14,12 @@ public class User {
     private int id;
 
     private String name;
+
     private String password;
+
     private String salt;
 
-    /**
-     * 用来显示打星号的用户名
-     */
+    /** 用来显示打星号的用户名 */
     @Transient
     private String anonymousName;
 
@@ -56,7 +56,26 @@ public class User {
     }
 
     public String getAnonymousName() {
-        return anonymousName;
+        if (null==anonymousName){
+            return null;
+        }
+        if (null==name){
+            anonymousName = null;
+            return null;
+        }
+        else if (name.length()<=1) {
+            return "*";
+        }
+        else if (name.length()==2){
+            return name.charAt(0) + "*";
+        }
+        else {
+            char[] cname = name.toCharArray();
+            for (int i=1; i<cname.length-1; i++){
+                cname[i] = '*';
+            }
+            return new String(cname);
+        }
     }
 
     public void setAnonymousName(String anonymousName) {
