@@ -5,6 +5,10 @@ import org.springframework.data.domain.Page;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 分页导航栏
+ * @param <T> 储存的对象的类型
+ */
 public class Page4Navigator<T> {
     //提取自 Page
     Page<T> pageFromJPA;
@@ -27,6 +31,10 @@ public class Page4Navigator<T> {
         //为redis从json转换而预留。
     }
 
+    /**
+     * @param pageFromJPA Spring的分页
+     * @param navigatePages 导航栏显示的页面的数量
+     */
     public Page4Navigator(Page<T> pageFromJPA, int navigatePages) {
         this.pageFromJPA = pageFromJPA;
         this.navigatePages = navigatePages;
