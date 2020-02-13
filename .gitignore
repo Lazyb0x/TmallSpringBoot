@@ -29,3 +29,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### IMG Resources ###
+src/main/webapp/img/
