@@ -32,3 +32,6 @@ build/
 
 ### IMG Resources ###
 src/main/webapp/img/
+
+### elasticsearch ###
+data/
