@@ -27,6 +27,7 @@ public class Order {
     private String mobile;
     private String userMessage;
     private Date createDate;
+    private Date payDate;
     private Date deliveryDate;
     private Date confirmDate;
     private String status;
@@ -147,6 +148,14 @@ public class Order {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public Date getPayDate() {
+        return payDate;
+    }
+
+    public void setPayDate(Date payDate) {
+        this.payDate = payDate;
     }
 
     public Date getDeliveryDate() {
