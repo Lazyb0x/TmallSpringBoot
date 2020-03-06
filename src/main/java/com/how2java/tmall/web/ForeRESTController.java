@@ -31,6 +31,9 @@ public class ForeRESTController {
     @Autowired
     ReviewService reviewService;
 
+    @Autowired
+    OrderItemService orderItemService;
+
     @GetMapping("/forehome")
     public Object home(){
         List<Category> cs = categoryService.list();
@@ -150,5 +153,61 @@ public class ForeRESTController {
         productImageService.setFirstProductImages(ps);
         productService.setSaleAndReviewNumber(ps);
         return ps;
+    }
+
+    @GetMapping("forebuyone")
+    public Object buyone(int pid, int num, HttpSession session){
+        return buyOneAndAddCart(pid, num, session);
+    }
+
+    private int buyOneAndAddCart(int pid, int num, HttpSession session){
+        Product product = productService.get(pid);
+        int oiid = 0;
+
+        User user = (User)session.getAttribute("user");
+        boolean isFound = false;
+        List<OrderItem> ois = orderItemService.listByUser(user);
+        for (OrderItem oi : ois){
+            if (oi.getProduct().getId()==pid){
+                oi.setNumber(oi.getNumber()+num);
+                orderItemService.update(oi);
+                isFound = true;
+                oiid = oi.getId();
+                break;
+            }
+        }
+
+        if(!isFound){
+            OrderItem oi = new OrderItem();
+            oi.setUser(user);
+            oi.setNumber(num);
+            oi.setProduct(product);
+            orderItemService.add(oi);
+            oiid = oi.getId();
+        }
+
+        return oiid;
+    }
+
+    @GetMapping("forebuy")
+    public Object buy(String[] oiid, HttpSession session){
+        List<OrderItem> orderItems = new ArrayList<>();
+        float total = 0;
+
+        for (String strid : oiid){
+            int id = Integer.parseInt(strid);
+            OrderItem oi = orderItemService.get(id);
+            total += oi.getProduct().getPromotePrice()*oi.getNumber();
+            orderItems.add(oi);
+        }
+
+        productImageService.setFirstProductImagesOnOrderItems(orderItems);
+
+        session.setAttribute("ois", orderItems);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("orderItems", orderItems);
+        map.put("total", total);
+        return Result.success(map);
     }
 }
