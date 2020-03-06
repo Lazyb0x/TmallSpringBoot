@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
 
 @RestController
 public class ForeRESTController {
@@ -106,5 +105,50 @@ public class ForeRESTController {
             return Result.success();
         }
         return Result.fail("未登录");
+    }
+
+    @GetMapping("forecategory/{cid}")
+    public Object category(@PathVariable int cid, String sort){
+        Category c = categoryService.get(cid);
+        productService.fill(c);
+        productService.setSaleAndReviewNumber(c.getProducts());
+        categoryService.removeCategoryFromProduct(c);
+        Comparator<Product> productComparator = null;
+
+        if (null != sort && !sort.equals("null")) {
+            switch (sort) {
+                case "review":
+                    productComparator = Comparator.comparing(Product::getReviewCount);
+                    break;
+                case "date":
+                    productComparator = Comparator.comparing(Product::getCreateDate);
+                    break;
+                case "saleCount":
+                    productComparator = Comparator.comparing(Product::getSaleCount);
+                    break;
+                case "price":
+                    productComparator = Comparator.comparing(Product::getPromotePrice);
+                    break;
+                case "all":
+                    productComparator = Comparator.comparing(
+                            p -> p.getReviewCount() * p.getSaleCount()
+                    );
+                    break;
+            }
+            Collections.sort(c.getProducts(), productComparator);
+        }
+
+        return c;
+    }
+
+    @PostMapping("foresearch")
+    public Object search(String keyword){
+        if(null==keyword){
+            keyword = "";
+        }
+        List<Product> ps = productService.search(keyword, 0, 20);
+        productImageService.setFirstProductImages(ps);
+        productService.setSaleAndReviewNumber(ps);
+        return ps;
     }
 }

@@ -62,6 +62,10 @@ public class ProductService {
         }
     }
 
+    /**
+     * 给分类填充产品
+     * @param category 分类
+     */
     public void fill(Category category){
         //获得所有产品这样好吗
         List<Product> products = listByCategory(category);
@@ -95,5 +99,12 @@ public class ProductService {
         for (Product product : products){
             setSaleAndReviewNumber(product);
         }
+    }
+
+    public List<Product> search(String keyword, int start, int size) {
+        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        Pageable pageable = new PageRequest(start, size, sort);
+        List<Product> products = productDAO.findByNameLike("%" + keyword + "%", pageable);
+        return products;
     }
 }
