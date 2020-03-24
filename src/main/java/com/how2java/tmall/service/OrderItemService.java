@@ -62,6 +62,11 @@ public class OrderItemService {
         return orderItemDAO.findOne(id);
     }
 
+    /**
+     * 从订单项计算产品销量
+     * @param product 产品
+     * @return 销量
+     */
     public int getSaleCount(Product product){
         List<OrderItem> ois = listByProduct(product);
         int result = 0;
